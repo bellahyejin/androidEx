@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">DBDemoApplication</string>
+    <string name="add">Add DATA</string>
+    <string name="delete">Delete DATA</string>
+    <string name="alldelete">Delete All DATA</string>
+    <string name="update">Edit DATA</string>
+    <string name="search">Search DATA</string>
+    <string name="allsearch">Display All DATA</string>
+    <string name="search_hint">Enter data</string>
+    <string name="delelte_hint">Enter User ID</string>
+    <string name="success_all_delete">Success remove all data</string>
+    <string name="user_name">Name</string>
+    <string name="user_major">Major</string>
+    <string name="user_age">Age</string>
+    <string name="user_sex">Sex</string>
+    <string name="submit">Submit</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="select_age">Select age</string>
+</resources>

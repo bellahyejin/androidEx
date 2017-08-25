@@ -1,0 +1,77 @@
+<div id="login-view">
+    <div class="login-background">
+        <div class="login-panel">
+            <h2>{{ 'LOG_IN' | translate }}</h2>            
+
+            <div class="wrapper">
+                <div class="errorMsg" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
+                <form name="loginForm" class="form-horizontal form-bordered" method="get" novalidate>
+                    <div class="form-group">
+                        <div>
+                            <input name="email" ng-model="vm.email" type="email" placeholder="{{ 'EMAIL_ADDRESS' | translate }}" class="form-control" required maxlength="50" ng-pattern="vm.emailFormat" autofocus />
+                            <div class="errorMsg" ng-show="loginForm.email.$error.required && ( loginForm.email.$dirty || vm.isSubmitted )">{{ 'EMAIL_ADDRESS_REQUIRED' | translate }}</div>
+                            <!--<div class="errorMsg" ng-show="loginForm.email.$error.email && ( loginForm.email.$dirty || vm.isSubmitted )">{{ 'EMAIL_ADDRESS_INVALID' | translate }}</div>-->
+                            <div class="errorMsg" ng-show="loginForm.email.$error.pattern && vm.isSubmitted ">{{ 'EMAIL_ADDRESS_INVALID' | translate }}</div>
+                        </div>   
+                    </div>
+
+                    <div class="form-group">
+                        <div class="passwordDiv">
+                            <input name="password" ng-model="vm.password" ng-keyup="vm.emailKeyUp($event)" type="password" placeholder="{{ 'PASSWORD' | translate }}" class="form-control" required maxlength="100">
+                            <div class="errorMsg" ng-show="loginForm.password.$error.required && ( loginForm.password.$dirty || vm.isSubmitted )">{{ 'PASSWORD_REQUIRED' | translate }}</div>
+                        </div>
+                    </div>
+    
+                    <!-- button -->
+                    <p class="align-center mt-lg">
+                        <button name="loginBtn" type="button" class="btn btn-primary mr-xs loginBtn" ng-disabled="vm.loginPending || (!vm.email && !vm.password) || vm.isRecaptcha" ng-click="vm.login()">{{ 'LOG_IN' | translate }}</button>
+                    </p>
+
+                    <div class="btn-place">
+                        <div class="remember">
+                            <input name="rememberMe" id="checkRemem" ng-model="vm.rememberMe" type="checkbox">
+                            <i class="fa"></i>
+                            <label for="checkRemem"><span class="rememberme">{{ 'REMEMBER_ME' | translate }}</span></label>
+                        </div>
+                         <!-- button -->
+                        <div class="user-info">
+                            <div class="forgotPassword" ng-click="vm.goToForgotPasswordPage()">{{ 'FORGOT_PASSWORD' | translate }}</div>
+                            <div class="regBtn" ng-click="vm.goToRegisterPage()">{{ 'REGISTER' | translate }}</div>
+                        </div>
+                    </div>
+
+                    <div ng-if="vm.recaptchakey!='' && vm.attempts >= 3 && vm.language == 'en'">
+                        <div vc-recaptcha theme="'light'" key="vm.recaptchakey" ng-model="gRecaptchaResponse" on-success="setResponse(response)" on-create="setWidgetId(widgetId)" on-expire="cbExpiration()" lang="en"></div>
+                    </div>
+                    <div ng-if="vm.recaptchakey!='' && vm.attempts >= 3 && vm.language == 'fr'">
+                        <div vc-recaptcha theme="'light'" key="vm.recaptchakey" ng-model="gRecaptchaResponse" on-success="setResponse(response)" on-create="setWidgetId(widgetId)" on-expire="cbExpiration()" lang="fr"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function (e) {
+        $('#login-view form[name="loginForm"] input[name="email"]').keyup(function (e) {
+            if (e.keyCode == 13 && $(this).val()) {
+                $('#login-view form[name="loginForm"] input[name="password"]').focus();
+            }
+        })
+    });
+    var registrationBar = {}
+    registrationBar.regStep = "regstep1";
+    registrationBar.regStepsCompleted = {};
+    registrationBar.regStepOverride = {
+        "confirm": "regstep6",
+        "regComplete": "regstep6"
+    }
+    registrationBar.navigateToRegStep = function (regStep) {
+        $("#registration-bar .sel").removeClass("sel");
+        if (registrationBar.regStepOverride[regStep]) {
+            regStep = registrationBar.regStepOverride[regStep];
+        }
+        $("#" + regStep).addClass("sel");
+    }
+</script>
